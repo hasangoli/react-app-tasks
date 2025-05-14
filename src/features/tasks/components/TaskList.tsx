@@ -1,9 +1,9 @@
 import type { FC } from "react";
-import { useTasks } from "../../../hooks/useTasks";
+import { useFilteredTasks } from "../../../hooks/useFilteredTasks";
 import { TaskItem } from "./TaskItem";
 
 export const TaskList: FC = () => {
-	const tasks = useTasks();
+	const tasks = useFilteredTasks();
 
 	if (tasks.length === 0) {
 		return <p className="text-gray-500">No tasks yet!</p>;
