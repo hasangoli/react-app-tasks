@@ -1,5 +1,14 @@
+import { AddTaskForm } from "./features/tasks/components/AddTaskForm";
+import { TaskList } from "./features/tasks/components/TaskList";
+
 const App = () => {
-	return <div className="text-3xl">App</div>;
+	return (
+		<div className="p-6 max-w-3xl mx-auto">
+			<h1 className="text-2xl font-bold mb-4">Task Manager</h1>
+			<AddTaskForm />
+			<TaskList />
+		</div>
+	);
 };
 
 export default App;
