@@ -1,4 +1,6 @@
-import classNames from "classnames";
+import { useState } from "react";
+import { useAppDispatch } from "../../../hooks/useAppRedux";
+import { deleteTask, toggleTask } from "../taskSlice";
 import type { Task } from "../types/task.types";
 
 interface Props {
@@ -6,22 +8,45 @@ interface Props {
 }
 
 export const TaskItem = ({ task }: Props) => {
+	const dispatch = useAppDispatch();
+
+	const [isEditing, setIsEditing] = useState(false);
+	const [newTitle, setNewTitle] = useState(task.title);
+
+	const handleEdit = () => {};
+
 	return (
-		<li
-			className={classNames(
-				"p-3 border rounded cursor-pointer flex justify-between items-center",
-				{ "bg-green-100": task.completed }
-			)}
-			onClick={() => {}}>
-			<span
-				className={classNames({
-					"line-through text-gray-500": task.completed,
-				})}>
-				{task.title}
-			</span>
-			<span className="text-sm text-gray-400">
-				{new Date(task.createdAt).toLocaleDateString()}
-			</span>
+		<li className="flex justify-between items-center py-2 border-b">
+			<div className="flex items-center gap-2">
+				<input
+					type="checkbox"
+					checked={task.completed}
+					onChange={() => dispatch(toggleTask(task.id))}
+				/>
+				{isEditing ? (
+					<input
+						type="text"
+						value={newTitle}
+						onChange={e => setNewTitle(e.target.value)}
+						className="border p-1"
+						onKeyDown={e => e.key === "Enter" && handleEdit()}
+						autoFocus
+					/>
+				) : (
+					<span
+						className={`cursor-pointer ${
+							task.completed ? "line-through text-gray-400" : ""
+						}`}
+						onDoubleClick={() => setIsEditing(true)}>
+						{task.title}
+					</span>
+				)}
+			</div>
+			<button
+				onClick={() => dispatch(deleteTask(task.id))}
+				className="text-red-500 hover:text-red-700">
+				x
+			</button>
 		</li>
 	);
 };
